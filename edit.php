@@ -18,29 +18,49 @@ if ($result->num_rows === 0) {
 }
 
 $employee = $result->fetch_assoc();
+$deductionsArray = explode(',', $employee['deductions']);
 
-// Update logic
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $position = $_POST['position'];
     $status = $_POST['status'];
-$deductions = isset($_POST['deductions']) ? implode(',', $_POST['deductions']) : '';
+    $deductions = isset($_POST['deductions']) ? implode(',', $_POST['deductions']) : '';
     $board_lodging = $_POST['board_lodging'];
     $food_allowance = $_POST['food_allowance'];
     $lodging_address = $_POST['lodging_address'] ?? null;
 
-    $update_sql = "UPDATE employee_info SET 
-    name = ?, 
-    position = ?, 
-    status = ?, 
-    deductions = ?, 
-    board_lodging = ?, 
-    food_allowance = ?,
-    lodging_address = ?
-    WHERE id = ?";
+    // ✅ Correct field names based on form inputs
+    $sss = $_POST['sss_amount'] ?? null;
+    $philhealth = $_POST['philhealth_amount'] ?? null;
+    $pagibig = $_POST['pagibig_amount'] ?? null;
+    $tax = $_POST['tax_amount'] ?? null;
+    $others = $_POST['others_amount'] ?? null;
 
-$update_stmt = $conn->prepare($update_sql);
-$update_stmt->bind_param("ssssssss", $name, $position, $status, $deductions, $board_lodging, $food_allowance, $lodging_address, $id);
+    if ($board_lodging === 'No') {
+        $lodging_address = null;
+    }
+
+    $update_sql = "UPDATE employee_info SET 
+        name = ?, 
+        position = ?, 
+        status = ?, 
+        deductions = ?, 
+        board_lodging = ?, 
+        food_allowance = ?,
+        lodging_address = ?,
+        sss = ?, 
+        philhealth = ?, 
+        pagibig = ?, 
+        tax = ?,
+        others = ?
+        WHERE id = ?";
+
+    $update_stmt = $conn->prepare($update_sql);
+    $update_stmt->bind_param("sssssssssssss", 
+        $name, $position, $status, $deductions, $board_lodging, $food_allowance, 
+        $lodging_address, $sss, $philhealth, $pagibig, $tax, $others, $id
+    );
 
     if ($update_stmt->execute()) {
         header("Location: index.php");
@@ -51,18 +71,29 @@ $update_stmt->bind_param("ssssssss", $name, $position, $status, $deductions, $bo
 }
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Edit Employee</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="add_edit.css" rel="stylesheet">
-    <title>Edit Employee</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-<h2 style="text-align:center;">
-    Edit Employee
-</h2>
+<div class="circle small"></div>
+<div class="circle small two"></div>
+<div class="circle medium"></div>
+<div class="circle medium three"></div>
+<div class="circle large"></div>
+
+<div id="header_h">
+    <a id="back" href="dashboard.php"><i class="fa-solid fa-arrow-left fa-2x"></i></a>
+    <div id="description">
+        <h2>Edit Employee</h2>
+    </div>
+</div>
 
 <div id="parent_div">
     <form id="info" method="POST">
@@ -80,7 +111,7 @@ $update_stmt->bind_param("ssssssss", $name, $position, $status, $deductions, $bo
         <div class="toggle-group-lodging">
             <label style="margin-top: 10px;" id="text_info_status">Status:</label>
             <div id="toggle-group-one">
-                <input id="blank_text" type="radio" name="status" value="Permanent" <?= $employee['status'] === 'Permanent' ? 'checked' : '' ?>>
+                <input id="blank_text" type="radio" name="status" value="Permanent" <?= $employee['status'] === 'Permanent' ? 'checked' : '' ?>> 
                 <label>Permanent</label>
             </div>
             <div id="toggle-group-one">
@@ -90,37 +121,50 @@ $update_stmt->bind_param("ssssssss", $name, $position, $status, $deductions, $bo
         </div>
 
         <label id="text_info">Deductions:</label>
-        <div class="toggle-group deduction-box">
-            <?php
-            $deductions = ['sss', 'philhealth', 'pagibig', 'tax'];
-            foreach ($deductions as $ded) {
-                $amount = $employee[$ded] ?? '';
-                $checked = in_array($ded, $deductionsArray) ? 'checked' : '';
-                echo "<div>
-                    <label><input type=\"checkbox\" name=\"deductions[]\" value=\"$ded\" onchange=\"toggleDeduction('$ded')\" $checked> " . strtoupper($ded) . "</label>
-                    <input type=\"number\" step=\"0.01\" name=\"{$ded}_amount\" id=\"{$ded}_input\" placeholder=\"" . strtoupper($ded) . " Amount\" style=\"display:none;\" value=\"$amount\">
-                </div>";
-            }
-            ?>
+        <div class="toggle-group-deductions">
+            <div id="toggle-group-one-deductions">
+                <label>SSS</label>
+                <input style="margin-left: 58px;" type="checkbox" name="deductions[]" value="sss" onchange="toggleDeduction('sss')" <?= in_array('sss', $deductionsArray) ? 'checked' : '' ?>>
+                <input type="number" step="0.01" name="sss_amount" id="sss_input" placeholder="Amount" style="display:none;" value="<?= htmlspecialchars($employee['sss']) ?>">
+            </div>
+            <div id="toggle-group-one-deductions-two">
+                <label>PhilHealth</label>
+                <input type="checkbox" name="deductions[]" value="philhealth" onchange="toggleDeduction('philhealth')" <?= in_array('philhealth', $deductionsArray) ? 'checked' : '' ?>>
+                <input type="number" step="0.01" name="philhealth_amount" id="philhealth_input" placeholder="Amount" style="display:none;" value="<?= htmlspecialchars($employee['philhealth']) ?>">
+            </div>
+            <div id="toggle-group-one-deductions-three">
+                <label>Pag&#8209;IBIG</label>
+                <input style="margin-left: 17.5px;" type="checkbox" name="deductions[]" value="pagibig" onchange="toggleDeduction('pagibig')" <?= in_array('pagibig', $deductionsArray) ? 'checked' : '' ?>>
+                <input type="number" step="0.01" name="pagibig_amount" id="pagibig_input" placeholder="Amount" style="display:none;" value="<?= htmlspecialchars($employee['pagibig']) ?>">
+            </div>
+            <div id="toggle-group-one-deductions-four">
+                <label>Tax</label>
+                <input style="margin-left: 62px;" type="checkbox" name="deductions[]" value="tax" onchange="toggleDeduction('tax')" <?= in_array('tax', $deductionsArray) ? 'checked' : '' ?>>
+                <input type="number" step="0.01" name="tax_amount" id="tax_input" placeholder="Amount" style="display:none;" value="<?= htmlspecialchars($employee['tax']) ?>">
+            </div>
+            <div id="toggle-group-one-deductions-five">
+                <label>Others</label>
+                <input style="margin-left: 34.5px;" type="checkbox" name="deductions[]" value="others" onchange="toggleDeduction('others')" <?= in_array('others', $deductionsArray) ? 'checked' : '' ?>> 
+                <input type="number" step="0.01" name="others_amount" id="others_input" placeholder="Amount" style="display:none;" value="<?= htmlspecialchars($employee['others']) ?>">
+        </div>
         </div>
 
 
-        
         <div class="toggle-group-lodging">
             <label style="margin-top: 10px;" id="text_info_lodging">Board & Lodging:</label>
             <div id="toggle-group-one">
-                <input type="radio" name="board_lodging" value="Yes" <?= $employee['board_lodging'] === 'Yes' ? 'checked' : '' ?> onchange="toggleAddress(true)"> 
+                <input id="blank_text" type="radio" name="board_lodging" value="Yes" <?= $employee['board_lodging'] === 'Yes' ? 'checked' : '' ?> onchange="toggleAddress(true)"> 
                 <label>Yes</label>
             </div>
             <div id="toggle-group-one">
-                <input type="radio" name="board_lodging" value="No" <?= $employee['board_lodging'] === 'No' ? 'checked' : '' ?> onchange="toggleAddress(false)"> 
+                <input id="blank_text" type="radio" name="board_lodging" value="No" <?= $employee['board_lodging'] === 'No' ? 'checked' : '' ?> onchange="toggleAddress(false)"> 
                 <label>No</label>
             </div>
-        </div>
-
-        <div id="addressField" style="display:none; margin-top:10px;">
-            <label for="lodging_address">Lodging Address:</label>
-            <input type="text" name="lodging_address" id="lodging_address" placeholder="Address" value="<?= htmlspecialchars($employee['lodging_address'] ?? '') ?>">
+            <div id="address">
+                <div id="addressField" style="display:none; margin-top:10px;">
+                    <input type="text" placeholder="Address" name="lodging_address" id="lodging_address" value="<?= htmlspecialchars($employee['lodging_address'] ?? '') ?>">
+                </div>  
+            </div> 
         </div>
 
         <label id="text_info" for="food_allowance">Food Allowance:</label>
@@ -133,52 +177,47 @@ $update_stmt->bind_param("ssssssss", $name, $position, $status, $deductions, $bo
         <button type="submit" class="submit-btn">Update Employee</button>
     </form>
 
-<a href="dashboard.php">← Back to Employee List</a>
+   
 
-<script>
-function toggleAddress(show) {
-    const addressField = document.getElementById('addressField');
-    const addressInput = document.getElementById('lodging_address');
-    if (show) {
-        addressField.style.display = 'flex';
-        addressInput.setAttribute('required', 'required');
-    } else {
-        addressField.style.display = 'none';
-        addressInput.removeAttribute('required');
-        addressInput.value = ''; // optional: clear the value
-    }
-}
-
-function toggleDeduction(field) {
-    const checkbox = document.querySelector(`input[type="checkbox"][name="deductions[]"][value="${field}"]`);
-    const input = document.getElementById(`${field}_input`);
-
-    if (checkbox && input) {
-        if (checkbox.checked) {
-            input.style.display = 'block';
-            input.required = true;
+    <script>
+    function toggleAddress(show) {
+        const addressField = document.getElementById('addressField');
+        const addressInput = document.getElementById('lodging_address');
+        if (show) {
+            addressField.style.display = 'flex';
+            addressInput.setAttribute('required', 'required');
         } else {
-            input.style.display = 'none';
-            input.required = false;
-            input.value = '';
+            addressField.style.display = 'none';
+            addressInput.removeAttribute('required');
         }
     }
-}
 
-// On page load: trigger the correct state
-window.onload = function () {
-    toggleAddress(document.querySelector('input[name="board_lodging"][value="Yes"]').checked);
-
-    // Toggle deduction inputs based on initial checkbox state
-    const fields = ['sss', 'philhealth', 'pagibig', 'tax'];
-    fields.forEach(field => {
+    function toggleDeduction(field) {
         const checkbox = document.querySelector(`input[type="checkbox"][name="deductions[]"][value="${field}"]`);
-        if (checkbox && checkbox.checked) {
-            toggleDeduction(field);
+        const input = document.getElementById(`${field}_input`);
+
+        if (checkbox && input) {
+            if (checkbox.checked) {
+                input.style.display = 'block';
+                input.required = true;
+            } else {
+                input.style.display = 'none';
+                input.required = false;
+                input.value = '';
+            }
         }
-    });
-};
-</script>
+    }
+
+    // Initialize deduction input visibility
+    window.onload = function () {
+        toggleAddress(document.querySelector('input[name="board_lodging"][value="Yes"]').checked);
+        ['sss', 'philhealth', 'pagibig', 'tax', 'others'].forEach(field => {
+            if (document.querySelector(`input[type="checkbox"][name="deductions[]"][value="${field}"]`).checked) {
+                toggleDeduction(field);
+            }
+        });
+    };
+    </script>
 </div>
 
 </body>
