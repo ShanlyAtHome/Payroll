@@ -59,6 +59,7 @@ label {
 
 #toggle-group-one {
     display: flex;
+    height: 53px;
     margin-top: 10px;
     align-items: center;
     gap: 10px;
@@ -123,6 +124,10 @@ label {
     height: 43px;
     margin-left: 20px;
     gap: 50px;
+}
+
+#yes_section{
+  display: flex;
 }
 
 #toggle-group-one-deductions-four{

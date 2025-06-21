@@ -4,6 +4,8 @@
 Implementing new features for employee data management, specifically adding an hourly rate input and automating non-taxable deduction calculations.
 
 ## Recent Changes
+- **Fixed Redirect Loop:** Modified `php/authentication.php` to use `$_SESSION['loggedin']` consistently for login status checks, resolving the infinite redirect issue.
+- **Resolved `session_start()` Notice:** Added a check `if (session_status() == PHP_SESSION_NONE)` in `php/rates.php` to prevent the `session_start()` notice when a session is already active.
 - **Fixed Delete Functionality:** Modified `php/delete.php` to correctly handle multiple employee IDs passed via the `ids` GET parameter from `php/dashboard.php`. This resolved the "No employee ID specified" error.
 - **Updated Add Employee Form (`php/add.php`):**
     - Added an "Hour Rate" input field.

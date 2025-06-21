@@ -30,7 +30,7 @@ label {
 #description{
   display: flex;
   justify-content: center;
-  margin-left: 330px;
+  margin-left: 320px;
   text-align: center;
 }
 
@@ -59,20 +59,21 @@ label {
 
 #toggle-group-one {
     display: flex;
+    height: 53px;
     margin-top: 10px;
     align-items: center;
     gap: 10px;
     margin-left: 10px;
 }
 
+#yes_section{
+  display: flex;
+}
+
 .toggle-group-deductions{
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-#lodging_address{
-  height: 30px;
 }
 
 #sss_input{

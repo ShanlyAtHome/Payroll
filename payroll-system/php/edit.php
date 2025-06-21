@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: authentication.php");
+    exit();
+}
+
 include 'db.php';
 include 'rates.php';
 
@@ -26,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $board_lodging = $_POST['board_lodging'];
     $lodging_address = $_POST['lodging_address'] ?? null;
     $food_allowance = $_POST['food_allowance'];
-    $daily_wage_rate = $_POST['daily_wage_rate'];
-    $days_worked = $_POST['days_worked'];
+    $daily_wage_rate = (float)$_POST['daily_wage_rate'];
+    $days_worked = (float)$_POST['days_worked'];
 
     $gross_pay = $daily_wage_rate * $days_worked;
 
@@ -176,29 +182,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label style="margin-top: 10px;" id="text_info_status">Status:</label>
                 <div id="toggle-group-one">
                     <label>Permanent</label>
-                    <input id="blank_text" type="radio" name="status" value="Permanent" <?= $employee['status'] === 'Permanent' ? 'checked' : '' ?> required onchange="updateDailyWage()"> 
+                    <input style="margin-left: -80px;" id="blank_text" type="radio" name="status" value="Permanent" <?= $employee['status'] === 'Permanent' ? 'checked' : '' ?> required onchange="updateDailyWage()"> 
                 </div>
                 <div id="toggle-group-one">
                     <label>On&#8209;Call</label>
-                    <input id="blank_text" type="radio" name="status" value="On-Call" <?= $employee['status'] === 'On-Call' ? 'checked' : '' ?> required onchange="updateDailyWage()"> 
+                    <input style="margin-left: -48px;" id="blank_text" type="radio" name="status" value="On-Call" <?= $employee['status'] === 'On-Call' ? 'checked' : '' ?> required onchange="updateDailyWage()"> 
                 </div>
             </div>
 
             <div class="toggle-group-lodging">
                 <label style="margin-top: 10px;" id="text_info_lodging">Board & Lodging:</label>
-                <div id="toggle-group-one">
-                    <label>Yes</label>
-                    <input id="blank_text" type="radio" name="board_lodging" value="Yes" <?= $employee['board_lodging'] === 'Yes' ? 'checked' : '' ?> required onchange="toggleAddress(true)"> 
-                </div>
-                <div id="toggle-group-one">
-                    <label>No</label>
-                    <input id="blank_text" type="radio" name="board_lodging" value="No" <?= $employee['board_lodging'] === 'No' ? 'checked' : '' ?> required onchange="toggleAddress(false)"> 
-                </div>
-                <div id="address">
+                <div id="yes_section">
+                    <div id="toggle-group-one">
+                        <label>Yes</label>
+                        <input style="margin-left: 161px;" id="blank_text" type="radio" name="board_lodging" value="Yes" <?= $employee['board_lodging'] === 'Yes' ? 'checked' : '' ?> required onchange="toggleAddress(true)"> 
+                    </div>
                     <div id="addressField" style="display:none; margin-top:10px;">
                         <input id="blank_text" type="text" name="lodging_address" id="lodging_address" placeholder="Address" value="<?= htmlspecialchars($employee['lodging_address']) ?>" style="width: calc(100% + 8px);">
                     </div>  
-                </div>   
+                </div>    
+                <div id="toggle-group-one">
+                    <label>No</label>
+                    <input style="margin-left: -7px;" id="blank_text" type="radio" name="board_lodging" value="No" <?= $employee['board_lodging'] === 'No' ? 'checked' : '' ?> required onchange="toggleAddress(false)"> 
+                </div> 
             </div>
 
             <label id="text_info" for="food_allowance">Food Allowance:</label>

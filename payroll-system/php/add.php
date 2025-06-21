@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: authentication.php");
+    exit();
+}
+
 include 'db.php';
 include 'rates.php'; // Include the rates.php file
 
@@ -166,29 +172,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label style="margin-top: 10px;" id="text_info_status">Status:</label>
                 <div id="toggle-group-one">
                     <label>Permanent</label>
-                    <input id="blank_text" type="radio" name="status" value="Permanent" required onchange="updateDailyWage()"> 
+                    <input style="margin-left: -80px;" id="blank_text" type="radio" name="status" value="Permanent" required onchange="updateDailyWage()"> 
                 </div>
                 <div id="toggle-group-one">
                     <label>On&#8209;Call</label>
-                    <input id="blank_text" type="radio" name="status" value="On-Call" required onchange="updateDailyWage()"> 
+                    <input style="margin-left: -48px;" id="blank_text" type="radio" name="status" value="On-Call" required onchange="updateDailyWage()"> 
                 </div>
             </div>
 
             <div class="toggle-group-lodging">
                 <label style="margin-top: 10px;" id="text_info_lodging">Board & Lodging:</label>
-                <div id="toggle-group-one">
-                    <label>Yes</label>
-                    <input id="blank_text" type="radio" name="board_lodging" value="Yes" required onchange="toggleAddress(true)"> 
-                </div>
+                <div id="yes_section">
+                    <div id="toggle-group-one">
+                        <label>Yes</label>
+                        <input style="margin-left: 161px;" id="blank_text" type="radio" name="board_lodging" value="Yes" required onchange="toggleAddress(true)"> 
+                    </div>
+                    <div id="addressField" style="margin-left: 10px;">
+                        <input type="text" name="lodging_address" id="blank_text" placeholder="Address">
+                    </div> 
+                </div>     
                 <div id="toggle-group-one">
                     <label>No</label>
-                    <input id="blank_text" type="radio" name="board_lodging" value="No" required onchange="toggleAddress(false)"> 
-                </div>
-                <div id="address">
-                    <div id="addressField" style="display:none; margin-top:10px;">
-                        <input type="text" name="lodging_address" id="lodging_address" placeholder="Address">
-                    </div>  
-                </div>   
+                    <input style="margin-left: -7px;" id="blank_text" type="radio" name="board_lodging" value="No" required onchange="toggleAddress(false)"> 
+                </div>  
             </div>
 
             <label id="text_info" for="food_allowance">Food Allowance:</label>

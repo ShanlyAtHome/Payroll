@@ -1,6 +1,8 @@
 # Progress
 
 ## What Works
+- **Fixed Redirect Loop:** The infinite redirect issue in `php/authentication.php` has been resolved by ensuring consistent session variable usage.
+- **Resolved `session_start()` Notice:** The `Notice: session_start(): Ignoring session_start()` in `php/rates.php` has been fixed by adding a check to prevent multiple session starts.
 - **Employee Listing:** Displays employee information from the database, now with an "Actions" column for direct editing and deleting. The header no longer contains separate edit and delete buttons.
 - **Add Employee:** Form for adding new employees, now includes hour rate input and calculates SSS, Pag-IBIG, PhilHealth deductions automatically.
 - **Delete Employee:** Functionality to delete one or multiple employees.

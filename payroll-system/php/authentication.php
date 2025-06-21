@@ -3,7 +3,7 @@
 session_start();
 
 // Check if the user is already logged in (Optional)
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['loggedin'])) {
     header('Location: dashboard.php'); // Redirect to dashboard if logged in
     exit();
 }
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the entered credentials match the valid ones
     if ($username === $valid_username && $password === $valid_password) {
         // Set session variable and redirect to dashboard
-        $_SESSION['username'] = $username;
+        $_SESSION['loggedin'] = true;
     header('Location: dashboard.php');  // Replace with your desired page
         exit();
     } else {

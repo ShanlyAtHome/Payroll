@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: authentication.php");
+    exit();
+}
+
 include 'db.php';
 $sql = "SELECT * FROM `employee_info`";
 $result = $conn->query($sql);
@@ -40,7 +46,7 @@ $result = $conn->query($sql);
        <span>Payslip</span>
     </div>
     <div class="icon_label">
-      <a id="logout_btn" href="authentication.php" class="icon_btn">
+      <a id="logout_btn" href="logout.php" class="icon_btn">
         <i id="add_icon" class="fa-solid fa-right-from-bracket fa-2x"></i>
       </a>
       <span>Logout</span>
@@ -105,6 +111,22 @@ $result = $conn->query($sql);
       updateSelectedInput();
     });
   });
+
+    function enterDeleteMode() {
+    mode = 'multiple';
+    document.getElementById('deselect_btn').style.display = 'inline-block';
+
+    if (selectedRows.size === 0) {
+      alert("Select employees to delete by clicking their rows. Click 'Deselect All' to cancel.");
+      return;
+    }
+
+    const ids = Array.from(selectedRows);
+    const confirmDelete = confirm(`Are you sure you want to delete ${ids.length} employee(s)?`);
+    if (confirmDelete) {
+      window.location.href = `delete.php?ids=${ids.join(',')}`;
+    }
+  }
 
   function updateSelectedInput() {
     document.getElementById('selected_ids').value = Array.from(selectedRows).join(',');
