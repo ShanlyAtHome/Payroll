@@ -1,0 +1,281 @@
+body { 
+  font-family: Montserrat, sans-serif; 
+  background: #f8f9fa; 
+  padding: 30px; }
+
+input, option{
+  font-family: Montserrat, sans-serif;
+}
+
+input[type="text"] {
+    width: 450px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #495057;
+    margin-bottom: 6px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #495057;
+    margin-bottom: 6px;
+}
+
+form {
+    background-color: #fff;
+    padding: 25px;
+    max-width: 500px;
+    margin: 10px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+#header_h{
+  display: flex;
+  height: fit-content;
+  align-items: center;
+}
+
+#description{
+  display: flex;
+  justify-content: center;
+  margin-left: 340px;
+  text-align: center;
+}
+
+#back{
+  color: black;
+}
+
+.container{
+  margin-top: -30px;
+}
+
+#second_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50px;
+}
+
+.back{
+  margin-right: 60px;
+  margin-left: 480px;
+}
+
+.title{
+  text-align: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#back{
+  color: black;
+}
+
+#second_container {
+  text-align: center;
+}
+
+.toggle-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.toggle-group-lodging {
+    display: flex;
+    margin-top: 20px;
+}
+
+#toggle-group-one {
+    display: flex;
+    height: 53px;
+    margin-top: 10px;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.toggle-group-deductions{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#lodging_address{
+  height: 30px;
+}
+
+#sss_input{
+  height: 30px;
+}
+
+#philhealth_input{
+  height: 30px;
+}
+
+#pagibig_input{
+  height: 30px;
+}
+
+#tax_input{
+  height: 30px;
+}
+
+#others_input{
+  height: 30px;
+}
+
+#toggle-group-one-deductions{
+    display: flex; 
+    flex-direction: row; 
+    margin-top: 5px; 
+    align-items: center;
+    height: 43px;
+    margin-left: 20px;
+    gap: 30px;
+}
+
+#toggle-group-one-deductions-two{
+    display: flex; 
+    flex-direction: row; 
+    margin-top: 10px; 
+    align-items: center;
+    height: 43px;
+    margin-left: 20px;
+    gap: 50px;
+}
+
+#toggle-group-one-deductions-three{
+    display: flex; 
+    flex-direction: row; 
+    margin-top: 10px; 
+    align-items: center;
+    height: 43px;
+    margin-left: 20px;
+    gap: 50px;
+}
+
+#yes_section{
+  display: flex;
+}
+
+#toggle-group-one-deductions-four{
+    display: flex; 
+    flex-direction: row; 
+    margin-top: 10px; 
+    align-items: center;
+    height: 43px;
+    margin-left: 20px;
+    gap: 50px;
+}
+
+#toggle-group-one-deductions-five{
+    display: flex; 
+    flex-direction: row; 
+    margin-top: 10px; 
+    align-items: center;
+    height: 43px;
+    margin-left: 20px;
+    gap: 50px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
+
+input[type="radio"] {
+  transform: scale(1.5);
+  vertical-align: middle;
+}
+
+#addressField{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+#address{
+  display: flex;
+  align-items: center;
+  height: 25px;
+  margin-top: 2px;
+}
+
+#submit_div{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.update-btn {
+    display: inline-block;
+    width: 500px;
+    line-height: 25px;
+    padding: 0;
+    border: 1px solid;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: normal;
+    font-family: 'Montserrat', sans-serif;
+    font-size: inherit;
+    color: #0641fb;
+    border-color: #0641fb;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.update-btn:hover {
+  background-color: #0641fb;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.update-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#parent_div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#info{
+  display: flex;
+  flex-direction: column;
+}
+
+#text_info{
+  width: 500px;
+  margin-top: 3px;
+}
+
+fieldset {
+    border: 1px solid #0641fb;
+    border-radius: 5px;
+}
+
+legend {
+    text-align: center;
+}

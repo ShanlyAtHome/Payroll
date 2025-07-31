@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Employee Information</title>
+    <link rel="stylesheet" href="../css/add.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div id="second_container">
+        <div class="back">
+            <a id="back" href="dashboard.php"><i class="fa-solid fa-arrow-left fa-2x"></i></a>
+        </div>
+        <div class="title">
+            <h2>Add Employee Information</h2>
+        </div>
+    </div>
+
+    <form method="POST" action="add.php" class="form">
+
+        <!-- Employee Info -->
+        <fieldset>
+            <legend>Employee Info</legend>
+
+            <label>Last Name:</label>
+            <input type="text" name="last_name" required>
+
+            <label>First Name:</label>
+            <input type="text" name="first_name" required>
+
+            <label>Position:</label>
+            <input type="text" name="position" required>
+
+            <label>Status:</label>
+            <select name="status" required>
+                <option value="Permanent">Permanent</option>
+                <option value="On-Call">On-Call</option>
+            </select>
+
+            <label>Board & Lodging:</label>
+            <select name="board_lodging" required onchange="toggleLodgingAddress(this.value)">
+                <option value="Yes" selected>Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <div id="lodging_input" style="display:none;">
+                <label>Lodging Address:</label>
+                <input type="text" name="lodging_address">
+            </div>
+
+            <label>Food Allowance:</label>
+            <select name="food_allowance" required>
+                <option value="Full">Full</option>
+                <option value="Partial">Partial</option>
+                <option value="None">None</option>
+            </select>
+        </fieldset>
+
+        <div id="submit_div">
+            <input type="submit" value="Add Employee" class="update-btn">
+        </div>
+
+    </form>
+    
+    <script>
+        function toggleLodgingAddress(value) {
+            document.getElementById("lodging_input").style.display = value === "Yes" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
